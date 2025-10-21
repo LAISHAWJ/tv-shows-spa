@@ -33,14 +33,15 @@ const Home = () => {
     dots: true,
     infinite: false,
     speed: 500,
-    slidesToShow: 6,
-    slidesToScroll: 6,
+    slidesToShow: 5,
+    slidesToScroll: 5,
     arrows: true,
-    prevArrow: <ArrowLeftOutlined className="text-emerald-green text-2xl" />,
-    nextArrow: <ArrowRightOutlined className="text-emerald-green text-2xl" />,
+    prevArrow: <ArrowLeftOutlined className="text-emerald-green text-3xl" />,
+    nextArrow: <ArrowRightOutlined className="text-emerald-green text-3xl" />,
     responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 4, slidesToScroll: 4 } },
-      { breakpoint: 600, settings: { slidesToShow: 2, slidesToScroll: 2 } },
+      { breakpoint: 1280, settings: { slidesToShow: 4, slidesToScroll: 4 } },
+      { breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 3 } },
+      { breakpoint: 768, settings: { slidesToShow: 2, slidesToScroll: 2 } },
       { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } },
     ],
   };
@@ -52,46 +53,34 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black-bg p-4">
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black-bg/80 backdrop-blur-md border-b border-emerald-green/20 py-4">
-        <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-3xl font-bold text-emerald-green mb-2">TV Esmeralda</h1>
-          <SearchBar onSearch={(query) => { setSearchQuery(query); setPage(1); }} />
-        </div>
-      </header>
-      <div className="pt-24 max-w-7xl mx-auto px-4">
-        <h2 className="text-2xl font-bold text-white mb-6 fade-in">
-          {searchQuery ? `Resultados para "${searchQuery}"` : 'Series Populares'}
-        </h2>
-        <Slider {...sliderSettings}>
-          {shows.map((show) => (
-            <div key={show.id} className="px-2">
-              <ShowCard
-                id={show.id}
-                name={show.name}
-                image={show.image_path || show.image_thumbnail_path || 'https://via.placeholder.com/300x450?text=No+Image'} // HD priority
-                rating={show.rating}
-              />
-            </div>
-          ))}
-        </Slider>
-        <div className="mt-8 flex justify-center gap-4 fade-in">
-          <button
-            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-            disabled={page === 1}
-            className="px-6 py-2 bg-emerald-green text-black rounded-full font-bold shadow-lg hover:shadow-emerald-green/50 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            ← Anterior
-          </button>
-          <span className="text-white self-center">Página {page} de {totalPages}</span>
-          <button
-            onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
-            disabled={page === totalPages}
-            className="px-6 py-2 bg-emerald-green text-black rounded-full font-bold shadow-lg hover:shadow-emerald-green/50 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Siguiente →
-          </button>
-        </div>
+    <div className="py-6 fade-in">
+      <SearchBar onSearch={setSearchQuery} />
+      <h2 className="text-3xl font-bold text-white mb-6 text-center">
+        {searchQuery ? `Resultados para "${searchQuery}"` : 'Series Populares'}
+      </h2>
+      <Slider {...sliderSettings}>
+        {shows.map((show) => (
+          <div key={show.id} className="px-2">
+            <ShowCard id={show.id} name={show.name} image={show.image_path || show.image_thumbnail_path || 'https://via.placeholder.com/300x450?text=HD+Image'} rating={show.rating} />
+          </div>
+        ))}
+      </Slider>
+      <div className="mt-8 flex justify-center gap-4">
+        <button
+          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+          disabled={page === 1}
+          className="px-6 py-2 bg-emerald-green text-black rounded-full font-bold shadow-md hover:shadow-emerald-green/50 hover:bg-emerald-dark transition-all duration-300 disabled:opacity-50"
+        >
+          Anterior
+        </button>
+        <span className="text-light-gray self-center">Página {page} de {totalPages}</span>
+        <button
+          onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={page === totalPages}
+          className="px-6 py-2 bg-emerald-green text-black rounded-full font-bold shadow-md hover:shadow-emerald-green/50 hover:bg-emerald-dark transition-all duration-300 disabled:opacity-50"
+        >
+          Siguiente
+        </button>
       </div>
     </div>
   );

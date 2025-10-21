@@ -10,15 +10,15 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   background-color: #000000; /* Negro fondo */
-  color: #fff;
+  color: #FFFFFF; /* Texto blanco para contraste */
 }
 
-/* Animación fade-in para carga */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Mejora visibilidad en textos secundarios */
+.text-secondary {
+  color: #D3D3D3; /* Gris claro */
 }
 
-.fade-in {
-  animation: fadeIn 0.5s ease-out;
+/* Hover glow verde */
+.glow-hover:hover {
+  box-shadow: 0 0 15px rgba(80, 200, 120, 0.5); /* Verde esmeralda glow */
 }
