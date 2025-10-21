@@ -9,3 +9,6 @@ body {
   background-color: #141414; /* Fondo oscuro tipo Netflix */
   color: #fff; /* Texto blanco */
 }
+
+@import 'slick-carousel/slick/slick.css';
+@import 'slick-carousel/slick/slick-theme.css';
