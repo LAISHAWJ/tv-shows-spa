@@ -7,8 +7,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        'netflix-dark': '#141414', // Fondo oscuro
-        'netflix-red': '#E50914', // Acento rojo
+        'emerald-green': '#50C878', 
+        'emerald-dark': '#2E7D5E', 
+        'black-bg': '#000000', 
       },
     },
   },

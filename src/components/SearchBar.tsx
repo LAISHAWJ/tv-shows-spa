@@ -1,5 +1,6 @@
-import { Input } from 'antd';
+import { Input, Button } from 'antd';
 import { useState, useEffect } from 'react';
+import { SearchOutlined } from '@ant-design/icons';
 import { debounce } from 'lodash';
 
 interface SearchBarProps {
@@ -13,10 +14,21 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     onSearch(value);
   }, 500);
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setQuery(value);
-    debouncedSearch(value);
+  };
+
+  const handleSearch = () => {
+    if (query.trim()) {
+      debouncedSearch(query.trim());
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
   };
 
   useEffect(() => {
@@ -26,14 +38,28 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   }, [debouncedSearch]);
 
   return (
-    <Input.Search
-      placeholder="Buscar series..."
-      value={query}
-      onChange={handleSearch}
-      className="mb-6 max-w-lg mx-auto"
-      size="large"
-      style={{ backgroundColor: '#333', borderColor: '#444', color: '#fff' }}
-    />
+    <div className="mb-6 max-w-lg mx-auto flex gap-2 fade-in">
+      <Input
+        placeholder="Buscar series..."
+        value={query}
+        onChange={handleInputChange}
+        onKeyPress={handleKeyPress}
+        size="large"
+        prefix={<SearchOutlined className="text-emerald-green" />}
+        style={{ backgroundColor: '#111', borderColor: '#333', color: '#fff' }}
+        className="flex-1"
+      />
+      <Button
+        type="primary"
+        onClick={handleSearch}
+        size="large"
+        icon={<SearchOutlined />}
+        style={{ backgroundColor: '#50C878', borderColor: '#50C878' }}
+        className="hover:bg-emerald-dark transition-all duration-300"
+      >
+        Buscar
+      </Button>
+    </div>
   );
 };
 

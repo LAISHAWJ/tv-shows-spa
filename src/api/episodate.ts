@@ -5,16 +5,28 @@ const api = axios.create({
 });
 
 export const getPopularShows = async (page: number) => {
-  const response = await api.get(`/most-popular?page=${page}`);
-  return response.data;  // { tv_shows: [], page: number, pages: number }
+  try {
+    const response = await api.get(`/most-popular?page=${page}`);
+    return response.data;
+  } catch (error) {
+    throw new Error('Error al obtener shows populares');
+  }
 };
 
 export const searchShows = async (query: string, page: number) => {
-  const response = await api.get(`/search?q=${query}&page=${page}`);
-  return response.data;  // { tv_shows: [], page: number, pages: number, total: string }
+  try {
+    const response = await api.get(`/search?q=${query}&page=${page}`);
+    return response.data;
+  } catch (error) {
+    throw new Error('Error al buscar shows');
+  }
 };
 
 export const getShowDetails = async (id: string) => {
-  const response = await api.get(`/show-details?q=${id}`);
-  return response.data.tvShow;  // Objeto con details
+  try {
+    const response = await api.get(`/show-details?q=${id}`);
+    return response.data.tvShow; // tvShow con todos los detalles: genres, episodes, pictures, etc.
+  } catch (error) {
+    throw new Error('Error al obtener detalles del show');
+  }
 };
