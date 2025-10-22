@@ -1,40 +1,27 @@
-import { Card } from 'antd';
+// src/components/ShowCard.tsx
+import React from 'react';
 import { Link } from 'react-router-dom';
+import type { BasicShow } from '../api/episodate';
 
-interface ShowCardProps {
-  id: number;
-  name: string;
-  image: string;
-  rating?: number;
-}
+const placeholder =
+  'data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="850" viewBox="0 0 600 850"><rect fill="%23222222" width="600" height="850"/></svg>';
 
-const ShowCard: React.FC<ShowCardProps> = ({ id, name, image, rating }) => {
+export const ShowCard: React.FC<{ show: BasicShow }> = ({ show }) => {
   return (
-    <Link to={`/show/${id}`}>
-      <Card
-        hoverable
-        cover={
+    <article className="show-card">
+      <Link to={`/detail/${show.id}`} className="card-link">
+        <div className="thumb">
           <img
-            alt={name}
-            src={image || 'https://via.placeholder.com/300x450?text=HD+Image+Not+Available'}
-            className="h-64 w-full object-cover rounded-t-lg transition-all duration-300 glow-hover"
+            src={show.image_thumbnail_path || placeholder}
+            alt={show.name}
             loading="lazy"
           />
-        }
-        className="bg-black-bg border-emerald-dark/20 shadow-md hover:shadow-emerald-green/30 transition-all duration-300 rounded-lg fade-in"
-      >
-        <Card.Meta
-          title={<span className="text-white text-lg font-bold truncate">{name}</span>}
-          description={
-            <div className="flex justify-between text-secondary">
-              <span>TV Show</span>
-              {rating && <span className="text-emerald-green font-bold">{rating}/10</span>}
-            </div>
-          }
-        />
-      </Card>
-    </Link>
+        </div>
+        <div className="meta">
+          <h3 className="title">{show.name}</h3>
+          <p className="small">{show.network ? `${show.network} • ${show.country || ''}` : show.start_date}</p>
+        </div>
+      </Link>
+    </article>
   );
 };
-
-export default ShowCard;

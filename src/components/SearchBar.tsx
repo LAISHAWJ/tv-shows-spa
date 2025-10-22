@@ -1,53 +1,36 @@
-import { Input, Button } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
-import { useState, useEffect } from 'react';
-import { debounce } from 'lodash';
+// src/components/SearchBar.tsx
+import React, { useEffect, useState } from 'react';
 
-interface SearchBarProps {
-  onSearch: (query: string) => void;
+interface Props {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
-  const [query, setQuery] = useState('');
+export const SearchBar: React.FC<Props> = ({ value, onChange, placeholder = 'Buscar series...' }) => {
+  const [local, setLocal] = useState(value);
 
-  const debouncedSearch = debounce((value: string) => {
-    onSearch(value);
-  }, 500);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-  };
-
-  const handleSearch = () => {
-    debouncedSearch(query.trim());
-  };
-
+  // debounce simple
   useEffect(() => {
-    return () => debouncedSearch.cancel();
-  }, [debouncedSearch]);
+    const t = setTimeout(() => {
+      if (local !== value) onChange(local);
+    }, 450);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [local]);
+
+  useEffect(() => setLocal(value), [value]);
 
   return (
-    <div className="flex items-center gap-2 max-w-md mx-auto fade-in">
-      <Input
-        placeholder="Buscar series..."
-        value={query}
-        onChange={handleInputChange}
-        onPressEnter={handleSearch}
-        prefix={<SearchOutlined className="text-emerald-green" />}
-        className="flex-1 bg-black-bg border-emerald-dark text-white placeholder-light-gray"
-        size="large"
+    <div className="searchbar">
+      <input
+        aria-label="Buscar series"
+        value={local}
+        onChange={(e) => setLocal(e.target.value)}
+        placeholder={placeholder}
+        className="search-input"
       />
-      <Button
-        type="primary"
-        icon={<SearchOutlined />}
-        onClick={handleSearch}
-        size="large"
-        className="bg-emerald-green hover:bg-emerald-dark glow-hover"
-      >
-        Buscar
-      </Button>
+      <button className="clear-btn" onClick={() => { setLocal(''); onChange(''); }} title="Limpiar">✕</button>
     </div>
   );
 };
-
-export default SearchBar;
