@@ -1,4 +1,3 @@
-// src/api/episodate.ts
 import axios from 'axios';
 
 const API_BASE = 'https://www.episodate.com/api';
@@ -37,39 +36,38 @@ export interface SearchResponse {
 export interface ShowDetails {
   id?: number;
   name?: string;
-  url?: string;
+
   description?: string;
   start_date?: string;
   end_date?: string;
   country?: string;
   network?: string;
   status?: string;
-  runtime?: number;
+
   rating?: string | number;
   genres?: string[];
-  language?: string;
+
   image_path?: string;
   image_thumbnail_path?: string;
-  // the API may include cast and seasons fields
-  cast?: Array<{ name: string; character?: string; image?: string }>;
   seasons?: Array<{ season_number?: number; episode_count?: number }>;
 }
-
+// Obtener los programas de televisión más populares
 export const getMostPopular = async (page = 1) => {
   const { data } = await api.get<MostPopularResponse>(`/most-popular?page=${page}`);
   return data;
 };
-
+// Buscar programas de televisión por nombre
 export const searchShows = async (query: string, page = 1) => {
   const q = encodeURIComponent(query);
   const { data } = await api.get<SearchResponse>(`/search?q=${q}&page=${page}`);
   return data;
 };
-
+// Obtener detalles de un programa de televisión por ID o nombre
 export const getShowDetails = async (q: string | number) => {
   const query = encodeURIComponent(String(q));
   const { data } = await api.get<{ tvShow: ShowDetails }>(`/show-details?q=${query}`);
-  // API wraps details under tvShow (based on typical responses) — guard por si cambia:
+
+  // La API a veces devuelve el objeto directamente o dentro de 'tvShow'. Manejar ambos casos.
   if ((data as any).tvShow) return (data as any).tvShow as ShowDetails;
   return (data as any) as ShowDetails;
 };

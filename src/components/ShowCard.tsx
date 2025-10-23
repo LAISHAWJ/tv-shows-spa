@@ -1,4 +1,3 @@
-// src/components/ShowCard.tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import type { BasicShow } from '../api/episodate';

@@ -1,6 +1,4 @@
-// src/components/SearchBar.tsx
 import React, { useEffect, useState } from 'react';
-
 interface Props {
   value: string;
   onChange: (v: string) => void;

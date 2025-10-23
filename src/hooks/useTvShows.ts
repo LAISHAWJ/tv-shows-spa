@@ -1,4 +1,3 @@
-// src/hooks/useTvShows.ts
 import { useEffect, useState, useCallback } from 'react';
 import { getMostPopular, searchShows } from '../api/episodate';
 import type { BasicShow } from '../api/episodate';
